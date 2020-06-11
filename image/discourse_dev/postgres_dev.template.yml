@@ -1,5 +1,4 @@
 run:
-
   - replace:
       filename: "/etc/postgresql/12/main/postgresql.conf"
       from: /#?fullpage_writes *=.*/
@@ -41,7 +40,7 @@ run:
   - exec: su postgres -c 'psql discourse_test_multisite -c "create extension if not exists hstore;"'
   - exec: su postgres -c 'psql discourse_test_multisite -c "create extension if not exists pg_trgm;"'
 
-  - exec: cd tmp && git clone https://github.com/discourse/discourse.git --depth=1 && cd /tmp/discourse && sudo -u discourse bundle install
+  - exec: cd tmp && git clone https://github.com/unixneo/discourse_neo.git --depth=1 discourse && cd /tmp/discourse && sudo -u discourse bundle install
   - exec: chown -R discourse /tmp/discourse
   - exec: cd /tmp/discourse && sudo -u discourse bundle exec rake db:migrate
   - exec: cd /tmp/discourse && sudo -u discourse RAILS_ENV=test bundle exec rake db:migrate
