@@ -25,21 +25,21 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN curl https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" | \
-        tee /etc/apt/sources.list.d/postgres.list
+    tee /etc/apt/sources.list.d/postgres.list
 RUN curl --silent --location https://deb.nodesource.com/setup_10.x | sudo bash -
 RUN apt -y update
 # install these without recommends to avoid pulling in e.g.
 # X11 libraries, mailutils
 RUN apt -y install --no-install-recommends git rsyslog logrotate cron ssh-client
 RUN apt -y install build-essential rsync \
-                       libxslt-dev libcurl4-openssl-dev \
-                       libssl-dev libyaml-dev libtool \
-                       libxml2-dev gawk parallel \
-                       postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
-                       postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
-                       anacron wget \
-                       psmisc vim whois brotli libunwind-dev \
-                       libtcmalloc-minimal4 cmake
+    libxslt-dev libcurl4-openssl-dev \
+    libssl-dev libyaml-dev libtool \
+    libxml2-dev gawk parallel \
+    postgresql-${PG_MAJOR} postgresql-client-${PG_MAJOR} \
+    postgresql-contrib-${PG_MAJOR} libpq-dev libreadline-dev \
+    anacron wget \
+    psmisc vim whois brotli libunwind-dev \
+    libtcmalloc-minimal4 cmake
 RUN sed -i -e 's/start -q anacron/anacron -s/' /etc/cron.d/anacron
 RUN sed -i.bak 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf
 RUN dpkg-divert --local --rename --add /sbin/initctl
@@ -60,14 +60,14 @@ RUN /tmp/install-nginx
 RUN apt -y install advancecomp jhead jpegoptim libjpeg-turbo-progs optipng
 
 RUN mkdir /jemalloc-stable && cd /jemalloc-stable &&\
-      wget https://github.com/jemalloc/jemalloc/releases/download/3.6.0/jemalloc-3.6.0.tar.bz2 &&\
-      tar -xjf jemalloc-3.6.0.tar.bz2 && cd jemalloc-3.6.0 && ./configure --prefix=/usr && make && make install &&\
-      cd / && rm -rf /jemalloc-stable
+    wget https://github.com/jemalloc/jemalloc/releases/download/3.6.0/jemalloc-3.6.0.tar.bz2 &&\
+    tar -xjf jemalloc-3.6.0.tar.bz2 && cd jemalloc-3.6.0 && ./configure --prefix=/usr && make && make install &&\
+    cd / && rm -rf /jemalloc-stable
 
 RUN mkdir /jemalloc-new && cd /jemalloc-new &&\
-      wget https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2 &&\
-      tar -xjf jemalloc-5.2.1.tar.bz2 && cd jemalloc-5.2.1 && ./configure --prefix=/usr --with-install-suffix=5.2.1 && make build_lib && make install_lib &&\
-      cd / && rm -rf /jemalloc-new
+    wget https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2 &&\
+    tar -xjf jemalloc-5.2.1.tar.bz2 && cd jemalloc-5.2.1 && ./configure --prefix=/usr --with-install-suffix=5.2.1 && make build_lib && make install_lib &&\
+    cd / && rm -rf /jemalloc-new
 
 RUN echo 'gem: --no-document' >> /usr/local/etc/gemrc &&\
     mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git &&\
@@ -106,16 +106,16 @@ RUN gcc -o /usr/local/sbin/thpoff /src/thpoff.c && rm /src/thpoff.c
 
 # clean up for docker squash
 RUN   rm -fr /usr/share/man &&\
-      rm -fr /usr/share/doc &&\
-      rm -fr /usr/share/vim/vim74/tutor &&\
-      rm -fr /usr/share/vim/vim74/doc &&\
-      rm -fr /usr/share/vim/vim74/lang &&\
-      rm -fr /usr/local/share/doc &&\
-      rm -fr /usr/local/share/ruby-build &&\
-      rm -fr /root/.gem &&\
-      rm -fr /root/.npm &&\
-      rm -fr /tmp/* &&\
-      rm -fr /usr/share/vim/vim74/spell/en*
+    rm -fr /usr/share/doc &&\
+    rm -fr /usr/share/vim/vim74/tutor &&\
+    rm -fr /usr/share/vim/vim74/doc &&\
+    rm -fr /usr/share/vim/vim74/lang &&\
+    rm -fr /usr/local/share/doc &&\
+    rm -fr /usr/local/share/ruby-build &&\
+    rm -fr /root/.gem &&\
+    rm -fr /root/.npm &&\
+    rm -fr /tmp/* &&\
+    rm -fr /usr/share/vim/vim74/spell/en*
 
 
 # this can probably be done, but I worry that people changing PG locales will have issues
@@ -139,7 +139,7 @@ ADD cron.d_anacron /etc/cron.d/anacron
 RUN useradd discourse -s /bin/bash -m -U &&\
     mkdir -p /var/www &&\
     cd /var/www &&\
-    git clone https://github.com/discourse/discourse.git &&\
+    git clone https://github.com/unix/discourse_neo.git &&\
     cd discourse &&\
     git remote set-branches --add origin tests-passed &&\
     chown -R discourse:discourse /var/www/discourse &&\
